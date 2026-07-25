@@ -24,9 +24,19 @@
             height: 100%;
         }
 
-        .fade-image {
+        .image-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             max-width: 80%;
             max-height: 80%;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .fade-image {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
             animation: fadeInOut 4s ease-in-out infinite alternate;
         }
@@ -46,7 +56,9 @@
 </head>
 <body>
     <div class="image-container">
-        <img src="vhat.jpg" class="fade-image">
+        <a href="https://icantseeyou.github.io/text.html" class="image-link" target="_blank">
+            <img src="vhat.jpg" class="fade-image">
+        </a>
     </div>
 </body>
 </html>
