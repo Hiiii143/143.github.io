@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bye</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .text {
+            color: black;            
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            user-select: text;       
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+       
+        .text::selection {
+            color: #00ffcc;          
+            background: rgba(0, 255, 204, 0.3);
+        }
+
+        .text::-moz-selection {
+            color: #00ffcc;
+            background: rgba(0, 255, 204, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <p class="text">878924</p>
+</body>
+</html>
