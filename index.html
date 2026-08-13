@@ -37,17 +37,19 @@
 
         h1 {
             font-size: 3rem;
+            opacity: 0.15;
+            animation: fadeInOutOpacicyfree 4s ease-in-out alternate;
         }
 
         h2 {
             font-size: 2rem;
-            opacity: 0.15;
             font-family: 'MyCustomFont', Arial, sans-serif; /* Применяем кастомный шрифт */
         }
 
         h3 {
             font-size: 2rem;
             opacity: 0.15;
+            animation: fadeInOutOpacicyfree 4s ease-in-out alternate;
         }
 
         @keyframes fadeInOut {
@@ -56,6 +58,14 @@
             }
             100% {
                 opacity: 1;
+            }
+        }
+        @keyframes fadeInOutOpacicyfree {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.15;
             }
         }
     </style>
