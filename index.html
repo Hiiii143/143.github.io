@@ -11,23 +11,32 @@
             background-color: black;
             height: 100vh;
             display: flex;
+            flex-direction: column;  /* тексты в столбик */
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        /* Текст будет белым и красивым */
-        h1 {
+        h1, h2 {
             color: white;
             font-family: Arial, sans-serif;
-            font-size: 3rem;
             text-align: center;
             animation: fadeInOut 4s ease-in-out alternate;
+            margin: 10px 0; /* отступы между строками */
+        }
+
+        h1 {
+            font-size: 3rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            opacity: 0.8; /* чуть бледнее для второго текста */
         }
 
         @keyframes fadeInOut {
             0% {
-                opacity: 0
+                opacity: 0;
             }
             100% {
                 opacity: 1;
@@ -36,6 +45,7 @@
     </style>
 </head>
 <body>
-    <h1>I Love You.</h1> <!-- Убрал лишний символ -->
+    <h1>I Love You.</h1>
+    <h2>検索</h2> <!-- текст ниже -->
 </body>
 </html>
