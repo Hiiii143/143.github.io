@@ -5,24 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> ? </title>
     <style>
+        /* Подключаем шрифт из файла */
+        @font-face {
+            font-family: 'MyCustomFont'; /* Название шрифта */
+            src: url('OMORI_GAME2.ttf') format('truetype'); /* Укажи путь к файлу */
+            /* Для .otf: src: url('шрифт.otf') format('opentype'); */
+            /* Для .woff: src: url('шрифт.woff') format('woff'); */
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: black;
             height: 100vh;
             display: flex;
-            flex-direction: column;  /* тексты в столбик */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        h1, h2 {
+        h1, h2, h3 {
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
             animation: fadeInOut 4s ease-in-out alternate;
-            margin: 10px 0; /* отступы между строками */
+            margin: 10px 0;
         }
 
         h1 {
@@ -31,7 +41,13 @@
 
         h2 {
             font-size: 2rem;
-            opacity: 0.8; /* чуть бледнее для второго текста */
+            opacity: 0.15;
+            font-family: 'MyCustomFont', Arial, sans-serif; /* Применяем кастомный шрифт */
+        }
+
+        h3 {
+            font-size: 2rem;
+            opacity: 0.15;
         }
 
         @keyframes fadeInOut {
@@ -45,7 +61,8 @@
     </style>
 </head>
 <body>
-    <h1>I Love You.</h1>
-    <h2>検索</h2> <!-- текст ниже -->
+    <h1>検索</h1>
+    <h2>I Love You</h2>
+    <h3>番号</h3>
 </body>
 </html>
