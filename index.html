@@ -51,7 +51,6 @@
             opacity: 0.7; 
         }
 
-        
         .content {
             position: relative;
             z-index: 10;
@@ -61,7 +60,6 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            
             transform: perspective(800px) rotateX(2deg) rotateY(-1deg) scale(1.01);
         }
 
@@ -100,7 +98,6 @@
             100% { opacity: 0.15; }
         }
 
-        
         .noise-overlay {
             position: absolute;
             top: 0;
@@ -115,22 +112,17 @@
             background-size: 200px 200px;
             mix-blend-mode: overlay;
         }
-        
     </style>
 </head>
 <body>
 
-    
     <svg style="position: absolute; width: 0; height: 0;">
         <defs>
-          
             <filter id="tvNoise" x="0%" y="0%" width="100%" height="100%">
                 <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch" result="noise" />
                 <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.15 0" in="noise" result="coloredNoise" />
                 <feBlend in="SourceGraphic" in2="coloredNoise" mode="screen" />
             </filter>
-
-           
             <filter id="tvDistortion" x="-5%" y="-5%" width="110%" height="110%">
                 <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" result="warp" />
                 <feDisplacementMap in="SourceGraphic" in2="warp" scale="8" xChannelSelector="R" yChannelSelector="G" />
@@ -139,22 +131,37 @@
     </svg>
 
     <div class="tv-wrapper">
-
-        
         <div class="tv-effects"></div>
-
-       
         <div class="noise-overlay"></div>
-
-       <audio src="sound.mp3" autoplay></audio>
-        
         <div class="content">
             <h1>検索</h1>
             <h2>I Love You</h2>
             <h3>番号</h3>
         </div>
-
     </div>
+
+    <audio id="bg-audio" preload="auto">
+        <source src="ваш-файл.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const audio = document.getElementById('bg-audio');
+        
+        function play() {
+            audio.play().catch(() => {});
+        }
+
+        play();
+
+        document.addEventListener('click', () => {
+            if (audio.paused) play();
+        }, { once: true });
+
+        audio.addEventListener('ended', () => {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        });
+    </script>
 
 </body>
 </html>
