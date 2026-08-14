@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> ? </title>
+    <title>ТВ шум</title>
     <style>
         @font-face {
             font-family: 'MyCustomFont';
@@ -38,76 +38,33 @@
             overflow: hidden;
         }
 
-     
-        .tv-noise {
+        #noiseCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
-            background: transparent;
-            filter: url(#tvNoiseAnim);
-            opacity: 0.5;
-        }
-
-   
-        .noise-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 200%;
-            pointer-events: none;
             z-index: 2;
-            opacity: 0.2;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.4 0"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.9"/></svg>');
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            mix-blend-mode: overlay;
-            animation: noiseMove 0.5s infinite linear;
-            transform: translate(-25%, -25%);
+            opacity: 0.08;
         }
 
-        @keyframes noiseMove {
-            0% { background-position: 0 0; }
-            10% { background-position: 10px -5px; }
-            20% { background-position: -8px 15px; }
-            30% { background-position: 20px -10px; }
-            40% { background-position: -15px 8px; }
-            50% { background-position: 12px 20px; }
-            60% { background-position: -10px -12px; }
-            70% { background-position: 25px -8px; }
-            80% { background-position: -20px 12px; }
-            90% { background-position: 8px -20px; }
-            100% { background-position: 0 0; }
-        }
-
-       
-        .noise-fast {
+        .scanlines {
             position: absolute;
             top: 0;
             left: 0;
-            width: 200%;
-            height: 200%;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 3;
-            opacity: 0.1;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.8"/></svg>');
-            background-repeat: repeat;
-            background-size: 80px 80px;
-            mix-blend-mode: overlay;
-            animation: noiseFastMove 0.15s infinite linear;
-            transform: translate(-25%, -25%);
-        }
-
-        @keyframes noiseFastMove {
-            0% { background-position: 0 0; }
-            25% { background-position: 15px -8px; }
-            50% { background-position: -12px 18px; }
-            75% { background-position: 20px -15px; }
-            100% { background-position: -8px 10px; }
+            opacity: 0.08;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0,0,0,0.4) 2px,
+                rgba(0,0,0,0.4) 4px
+            );
         }
 
         .content {
@@ -119,7 +76,6 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            transform: perspective(800px) rotateX(2deg) rotateY(-1deg) scale(1.01);
         }
 
         h1, h2, h3 {
@@ -160,39 +116,54 @@
 </head>
 <body>
 
-   
-    <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            
-            <filter id="tvNoiseAnim" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" result="noise">
-                    <animate attributeName="baseFrequency" values="0.6;0.75;0.5;0.8;0.65;0.55;0.7;0.6" dur="0.3s" repeatCount="indefinite" />
-                </feTurbulence>
-                <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.3 0" in="noise" result="coloredNoise" />
-                <feBlend in="SourceGraphic" in2="coloredNoise" mode="screen" />
-            </filter>
-        </defs>
-    </svg>
-
     <div class="tv-wrapper">
-
-       
-        <div class="tv-noise"></div>
-
-      
-        <div class="noise-overlay"></div>
-
-        
-        <div class="noise-fast"></div>
-
-       
+        <canvas id="noiseCanvas"></canvas>
+        <div class="scanlines"></div>
         <div class="content">
             <h1>検索</h1>
             <h2>I Love You</h2>
             <h3>番号</h3>
         </div>
-
     </div>
+
+    <script>
+        const canvas = document.getElementById('noiseCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function generateNoise() {
+            const w = canvas.width;
+            const h = canvas.height;
+            const imageData = ctx.createImageData(w, h);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const value = Math.random() * 80; // Затемнил шум (было 255)
+                data[i] = value;
+                data[i + 1] = value;
+                data[i + 2] = value;
+                data[i + 3] = 255;
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        resizeCanvas();
+        generateNoise();
+
+        setInterval(() => {
+            generateNoise();
+        }, 100);
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            generateNoise();
+        });
+    </script>
 
 </body>
 </html>
