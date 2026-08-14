@@ -126,9 +126,15 @@
         </div>
     </div>
 
+    <audio id="bgAudio" loop>
+        <source src="sound.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         const canvas = document.getElementById('noiseCanvas');
         const ctx = canvas.getContext('2d');
+        const audio = document.getElementById('bgAudio');
+        let soundPlayed = false;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -142,7 +148,7 @@
             const data = imageData.data;
 
             for (let i = 0; i < data.length; i += 4) {
-                const value = Math.random() * 80; // Затемнил шум (было 255)
+                const value = Math.random() * 80;
                 data[i] = value;
                 data[i + 1] = value;
                 data[i + 2] = value;
@@ -150,6 +156,19 @@
             }
 
             ctx.putImageData(imageData, 0, 0);
+        }
+
+        function playSoundOnce() {
+            if (!soundPlayed) {
+                audio.play().catch(err => {
+                    console.log('Audio play failed:', err);
+                });
+                soundPlayed = true;
+                // Удаляем обработчики после первого запуска
+                document.removeEventListener('click', playSoundOnce);
+                document.removeEventListener('touchstart', playSoundOnce);
+                document.removeEventListener('keydown', playSoundOnce);
+            }
         }
 
         resizeCanvas();
@@ -163,6 +182,12 @@
             resizeCanvas();
             generateNoise();
         });
+
+       
+        document.addEventListener('click', playSoundOnce);
+        document.addEventListener('touchstart', playSoundOnce);
+        document.addEventListener('keydown', playSoundOnce);
+
     </script>
 
 </body>
